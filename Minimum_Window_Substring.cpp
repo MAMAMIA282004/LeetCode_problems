@@ -1,5 +1,4 @@
 #include <iostream>
-#include <climits>
 using namespace std;
 const int no_of_chars = 26;
 string findSubString(string str, string pat)
@@ -52,7 +51,7 @@ string findSubString(string str, string pat)
 }
 int main()
 {
-      string str = "abcerecajs";
+      string str = "abcedeca";
       string pat = "ace";
       cout << findSubString(str, pat);
       return 0;
