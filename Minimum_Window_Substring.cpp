@@ -1,39 +1,40 @@
 #include <iostream>
+#include <climits>
 using namespace std;
 const int no_of_chars = 26;
-string findSubString(string str, string pat)
-{
+string findSubString(string str, string pat) {
     int len1 = str.length();
     int len2 = pat.length();
-    // التحقق مما إذا كان طول السلسلة أقل من طول النمط
-    // إذا كان الطول أقل، فلا يوجد نافذة من هذا النوع
+    // Check if the length of the string is smaller than the length of the pattern
+    // If the length is smaller, there is no possible substring window
     if (len1 < len2) {
-        cout << "no window error!!";
+        cout << "String length is smaller than pattern length!" << "\n\n";
         return "";
     }
+    // Create arrays to store the frequency of characters in the pattern and the string
     int hash_pat[no_of_chars] = { 0 };
     int hash_str[no_of_chars] = { 0 };
-    // تخزين حدوث الحروف في النمط
+    // Store the frequency of characters in the pattern
     for (int i = 0; i < len2; i++)
         hash_pat[pat[i] - 'a']++;
     int start = 0, start_index = -1, min_len = INT_MAX;
-    int count = 0; // عدد الحروف
-    // البدء في مسح السلسلة
+    int count = 0; // Number of matched characters
+    // Start scanning the string
     for (int j = 0; j < len1; j++) {
-        // حساب حدوث الحروف في السلسلة
+        // Update the frequency of characters in the string
         hash_str[str[j] - 'a']++;
-        // إذا تطابقت الحرف في السلسلة مع الحرف في النمط، قم بزيادة العداد
+        // If the character in the string matches the character in the pattern, increase the count
         if (hash_str[str[j] - 'a'] <= hash_pat[str[j] - 'a'])
             count++;
-        // إذا تطابقت جميع الحروف
+        // If all characters have been matched
         if (count == len2) {
-            // محاولة تقليل حجم النافذة
+            // Try to minimize the size of the window
             while (hash_str[str[start] - 'a'] > hash_pat[str[start] - 'a'] || hash_pat[str[start] - 'a'] == 0) {
                 if (hash_str[str[start] - 'a'] > hash_pat[str[start] - 'a'])
                     hash_str[str[start] - 'a']--;
                 start++;
             }
-            // تحديث حجم النافذة
+            // Update the size of the window
             int len_window = j - start + 1;
             if (min_len > len_window) {
                 min_len = len_window;
@@ -41,24 +42,29 @@ string findSubString(string str, string pat)
             }
         }
     }
-    // إذا لم يتم العثور على نافذة
+    // If no window is found
     if (start_index == -1) {
-        cout << "no window error!!";
+        cout << "No valid window found!" << "\n\n";
         return "";
     }
-    // إرجاع الجزء الفرعي بدءًا من start_index بطول min_len
+    // Return the substring starting from start_index with length min_len
     return str.substr(start_index, min_len);
 }
-
 int main() {
     string str = "abcedeca";
     string pat = "ace";
-    cout << findSubString(str, pat) << endl;
+    if(findSubString(str, pat) != "")
+    cout << "Substring 1: " << findSubString(str, pat) << "\n\n";
+
     string str2 = "ab";
     string pat2 = "abc";
-    cout << findSubString(str2, pat2) << endl;
+    if(findSubString(str2, pat2) != "")
+        cout << "Substring 2: " << findSubString(str2, pat2) << "\n\n";
+
     string str3 = "abcdef";
     string pat3 = "era";
-    cout << findSubString(str3, pat3) << endl;
+    if(findSubString(str3, pat3) != "")
+    cout << "Substring 3: " << findSubString(str3, pat3) << "\n\n";
+
     return 0;
 }
