@@ -1,22 +1,20 @@
 #include <bits/stdc++.h>
-#include <vector>
-#include <algorithm>
 using namespace std;
-int characterReplacement(string s, int k) {
-    int maxF = 0, i = 0, n = s.length(), clean = 0;
-    vector<int> count(26);
-    for (int j = 0; j < n; ++j) {
-        maxF = max(maxF, ++count[s[j] - 'a']);
-        if (j - i + 1 > maxF + k)
-            --count[s[i + 1] - 'a'], clean++;
-    }
-    return n - clean;
-}
-
 int main() {
-    string s = "babaab";
-    int k = 2;
-    int result = characterReplacement(s, k);
-    cout << "Longest Repeating Character Replacement: " << result << endl;
+    string s; int k; cin >> s >> k; // string , int max num that we can replace
+    int n = s.length(), res = 0;
+    int start = 0, end = 0, maxFreq = 0;
+    map<int, int> freq;
+    for (end = 0; end < n; end++) {
+        freq[s[end]]++;
+        maxFreq = max(maxFreq, freq[s[end]]);
+        // len-maxFreq <= k, we have to find if the substring has atmost k different characters which we alter to make all the characters of the string equal
+        while (end - start + 1 - maxFreq > k) { // so here if we met different char and we cant change it we will remove previous char in string and start new freq
+            freq[s[start]]--;
+            start++;
+        }
+        res = max(res, end - start + 1);
+    }
+    cout << res << endl;
     return 0;
 }
