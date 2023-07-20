@@ -3,17 +3,21 @@
 using namespace std;
 
 int minSubArrayLen(int target, vector<int>& nums) {
-    int sum{}, r{}, l{}, ans = INT_MAX;
-    for (int i = 0; i < nums.size(); i++) {
-        sum += nums[r];
-        while (sum >= target) {
-            ans = min(ans, r - l + 1);
-            sum -= nums[l];
-            l++;
+    int sum{}, r{}, l{}, ans = INT_MAX; // Initialize variables for sum, right pointer, left pointer, and answer.
+
+    for (int i = 0; i < nums.size(); i++) { // Loop through the array with index 'i'.
+        sum += nums[r]; // Add the value at right pointer 'r' to the current sum.
+        
+        while (sum >= target) { // If the sum is greater than or equal to the target.
+            ans = min(ans, r - l + 1); // Update the minimum length found so far (ans) by comparing with the current window size.
+            sum -= nums[l]; // Remove the value at left pointer 'l' from the current sum.
+            l++; // Move the left pointer to the right to shrink the window.
         }
-        r++;
+
+        r++; // Move the right pointer to the right to expand the window.
     }
-    return (ans == INT_MAX) ? 0 : ans;
+
+    return (ans == INT_MAX) ? 0 : ans; // Return the minimum length found, or 0 if no valid subarray is found.
 }
 
 int main() {
