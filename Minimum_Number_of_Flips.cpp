@@ -51,3 +51,4 @@ int main() {
 
     return 0;
 }
+// https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/ (( problem link ))
